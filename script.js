@@ -1,139 +1,73 @@
-function timeAgo(unixTimestamp) {
-    const now = Date.now(); 
-    const past = unixTimestamp * 1000; 
-    const secondsAgo = Math.floor((now - past) / 1000);
-
-    if (secondsAgo < 60) {
-        return `${secondsAgo} seconds ago`;
-    }
-    
-    const minutesAgo = Math.floor(secondsAgo / 60);
-    if (minutesAgo < 60) {
-        return `${minutesAgo} minutes ago`;
-    }
-    
-    const hoursAgo = Math.floor(minutesAgo / 60);
-    if (hoursAgo < 24) {
-        return `${hoursAgo} hours ago`;
-    }
-    
-    const daysAgo = Math.floor(hoursAgo / 24);
-    if (daysAgo < 30) {
-        return `${daysAgo} days ago`;
-    }
-    
-    const monthsAgo = Math.floor(daysAgo / 30);
-    if (monthsAgo < 12) {
-        return `${monthsAgo} months ago`;
-    }
-    
-    const yearsAgo = Math.floor(daysAgo / 365);
-    return `${yearsAgo} years ago`;
-}
-async function topposts() {
-    document.getElementById('top').style.color="rgb(251 ,146 ,60)"
+let data=[]
+let currPage=1;
+const ppg= 25
+//writing one to combine all
+async function fetchall(e){
     const list=document.querySelector('.story')
-    try {
-        const rep= await fetch('https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty')
-        const data=await rep.json()
+    const load=document.getElementById('loader')
+    document.getElementById(e).style.color="rgb(251 ,146 ,60)"
+    list.style.display = 'none';
+    // document.querySelector('.pagination-controls').style.display = 'none';
+    load.style.display = 'block';
+    try{
+        const rep=await fetch(`https://hacker-news.firebaseio.com/v0/${e}stories.json?print=pretty`)
+        data=await rep.json()
+        currPage=1
+        await renderPage()
+    }catch(error){
+        console.log("error caught:  "+error);
         
-        const firstTen=data.slice(0,10)
-        for(const e of firstTen){
-            const link=`https://hacker-news.firebaseio.com/v0/item/${e}.json?print=pretty`
-            const r=await fetch(link)
-            const trudata=await r.json()
-            const item=document.createElement('li')
-
+    }
+}
+async function renderPage() {
+    const list = document.querySelector('.story');
+    const load = document.getElementById('loader');
+    
+    list.replaceChildren();
+    list.style.display = 'none';
+    load.style.display = 'block';
+    list.replaceChildren()
+    list.style.display='none';
+    load.style.display='block'
+    try{
+        const stridx=(currPage-1)*ppg
+        const endidx=stridx+ppg
+        const pgids=data.slice(stridx,endidx)
+        const storyPromises = pgids.map(id => 
+            fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`).then(r => r.json())
+        );
+        const storiesData = await Promise.all(storyPromises);
+        storiesData.forEach(trudata => {
+            if (!trudata) return; 
+            
+            const item = document.createElement('li');
+            li.style.borderBottom = "1px solid #ddd";
             item.innerHTML = `
             <div class="story-card">
                 <h3><a href="${trudata.url}" target="_blank">${trudata.title}</a></h3>
-                <p>Author: <a href="#" class="indiv">${trudata.by}</a><p>
+                <p>Author: <a href="#" class="indiv">${trudata.by}</a></p>
                 <p class="story-meta">
-                    <span class="meta-item"><a href="#" class="indiv">${trudata.descendants} comments</a></span> |
-                    
+                    <span class="meta-item"><a href="comments.html?id=${trudata.id}" class="indiv" id="comms">${trudata.descendants || 0} comments</a></span> |
                     <span class="meta-item">Points: ${trudata.score}</span> |
-                    
                     <span class="meta-item">${timeAgo(trudata.time)}</span>
                 </p>
             </div>
             `;
+
             list.appendChild(item);
-        };
-    } catch (error) {
-        console.log(error);
-    }
-}
-topposts()
+        });
 
-
-async function newposts() {
-    document.getElementById('new').style.color="rgb(251 ,146 ,60)"
-    const list=document.querySelector('.story')
-    try {
-        const rep= await fetch('https://hacker-news.firebaseio.com/v0/newstories.json?print=pretty')
-        const data=await rep.json()
-        
-        const firstTen=data.slice(0,10)
-        for(const e of firstTen){
-            const link=`https://hacker-news.firebaseio.com/v0/item/${e}.json?print=pretty`
-            const r=await fetch(link)
-            const trudata=await r.json()
-            const item=document.createElement('li')
-
-            item.innerHTML = `
-            <div class="story-card">
-                <h3><a href="${trudata.url}" target="_blank">${trudata.title}</a></h3>
-                <p>Author: <a href="#" class="indiv">${trudata.by}</a><p>
-                <p class="story-meta">
-                    <span class="meta-item"><a href="#" class="indiv">${trudata.descendants} comments</a></span> |
-                    
-                    <span class="meta-item">Points: ${trudata.score}</span> |
-                    
-                    <span class="meta-item">${timeAgo(trudata.time)}</span>
-                </p>
-            </div>
-            `;
-            list.appendChild(item);
-        };
-    } catch (error) {
-        console.log(error);
+        // Update the pagination UI
+        //updatePaginationUI();
+    }catch (error) {
+        console.log("Error loading page:", error);
+    } finally {
+        load.style.display = 'none';
+        list.style.display = 'block';
+        //document.querySelector('.pagination-controls').style.display = 'block';
     }
 }
 
-
-async function bestposts() {
-    const list=document.querySelector('.story')
-    document.getElementById('best').style.color="rgb(251 ,146 ,60)"
-    try {
-        const rep= await fetch('https://hacker-news.firebaseio.com/v0/beststories.json?print=pretty')
-        const data=await rep.json()
-        
-        const firstTen=data.slice(0,10)
-        for(const e of firstTen){
-            const link=`https://hacker-news.firebaseio.com/v0/item/${e}.json?print=pretty`
-            const r=await fetch(link)
-            const trudata=await r.json()
-            const item=document.createElement('li')
-
-            item.innerHTML = `
-            <div class="story-card">
-                <h3><a href="${trudata.url}" target="_blank">${trudata.title}</a></h3>
-                <p>Author: <a href="#" class="indiv">${trudata.by}</a><p>
-                <p class="story-meta">
-                    <span class="meta-item"><a href="#" class="indiv">${trudata.descendants} comments</a></span> |
-                    
-                    <span class="meta-item">Points: ${trudata.score}</span> |
-                    
-                    <span class="meta-item">${timeAgo(trudata.time)}</span>
-                </p>
-            </div>
-            `;
-            list.appendChild(item);
-        };
-    } catch (error) {
-        console.log(error);
-    }
-}
 document.getElementById('best').addEventListener('click',function(){
     const x= document.querySelectorAll('.nav-trs')
     x.forEach(e => {
@@ -141,7 +75,7 @@ document.getElementById('best').addEventListener('click',function(){
     })
     const list=document.querySelector('.story')
     list.replaceChildren()
-    bestposts()
+    fetchall('best')
 })
 document.getElementById('top').addEventListener('click',function(){
     const x= document.querySelectorAll('.nav-trs')
@@ -150,9 +84,9 @@ document.getElementById('top').addEventListener('click',function(){
     })
     const list=document.querySelector('.story')
     list.replaceChildren()
-    topposts()
+    fetchall('top')
 })
-
+fetchall('top')
 
 document.getElementById('new').addEventListener('click',function(){
     const x= document.querySelectorAll('.nav-trs')
@@ -161,5 +95,5 @@ document.getElementById('new').addEventListener('click',function(){
     })
     const list=document.querySelector('.story')
     list.replaceChildren()
-    newposts()
+    fetchall('new')
 })

@@ -20,10 +20,28 @@
             <button class="nav-trs" id="new">New</button>
             <button class="nav-trs" id="best">Best</button>
         </div>
+        <div id="loader" style="display: none;">
+            Loading...
+        </div>
         <ul class="story">
             
         </ul>
+        <div id="comments-view" style="display: none;">
+            <button id="back-btn" style="margin-bottom: 20px;">&larr; Back to Posts</button>
+            
+            <div id="post-details">
+                <!-- The post title and info will go here -->
+            </div>
+            
+            <hr>
+            
+            <ul id="comments-list">
+                <!-- Comments will be injected here -->
+            </ul>
+        </div>
     </div>
 </body>
 <script src="script.js"></script>
+<script src="utils.js"></script>
+<script src="comments.js"></script>
 </html>
