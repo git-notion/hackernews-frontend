@@ -5,7 +5,8 @@
     font-family: "Roberto", sans-serif;
 }
 .full{
-    margin: 16px;
+    margin: 0 auto;
+    width: min(45%,100% - 20px);
     display: flex;
     flex-direction: column;
     gap: 30px;
