@@ -1,0 +1,89 @@
+*{
+    background-color: #0a0a0a;
+    color: #e9e2e8;
+    box-sizing: border-box;
+    font-family: "Roberto", sans-serif;
+}
+.full{
+    margin: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+.titletext{
+    text-decoration: none; 
+    color: inherit; 
+    font-size: 1.4em;    
+}
+.titletext:hover{
+    text-decoration: none; 
+    color: inherit; 
+    font-size: 1.4em;    
+}
+a{
+    text-decoration: none;
+}
+a:hover{
+    text-decoration: underline;
+    color: rgb(251 146 60);
+}
+button{
+    all: unset;
+    cursor: pointer;
+}
+button:hover{
+    color: rgb(251 146 60);
+    text-decoration: underline;
+}
+.top{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+.navgn-bars{
+    display: flex;
+    justify-content:flex-start;
+    gap: 15px;
+    font-size: 0.91em;
+}
+.github{
+    text-decoration: underline;
+    color: rgb(251 146 60);;
+}
+ul{
+    list-style-type: none;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.story-card h3,
+.story-card a,
+.story-card p,
+.story-card div,
+.story-card span {
+    background-color: transparent !important;
+}
+.story-card{
+    transition: background-color 0.2s ease;
+    padding: 10px;
+}
+
+li:hover .story-card {
+    background-color: #2c2c2c; 
+    transition: background-color 0.2s ease;
+}
+.indiv{
+    color: rgb(251 146 60);
+    text-decoration: underline;
+    cursor: pointer;
+}
+.story-meta {
+    font-size: 0.9rem;
+    color: #888; 
+}
+
+.meta-item {
+    margin-right: 8px;
+}
