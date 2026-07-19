@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hackernews Client</title>
+    <title>HNFlow</title>
     <link rel="icon" type="image/jpg" href="/assets/images.jpg">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/comment.css">
@@ -11,7 +11,7 @@
     <div class="full">
         <a href="index.html" class="back-link">⬅  Back to Posts</a>
         <div class="top">
-            <a class="titletext" href="/">Hackernews Client</a>
+            <a class="titletext" href="/">HNFlow</a>
             <a href="https://github.com/git-notion" class="github">github</a>
         </div>
         <div id="loading-spinner">Loading comments...</div>
@@ -22,10 +22,12 @@
         <ul id="comments-list">
 
         </ul>
+        <div id="sentinel"></div>
     </div>
 
 </body>
 <script src="js/comments.js"></script>
 <script src="js/script.js"></script>
 <script src="js/utils.js"></script>
+<script src="js/lazyloader.js"></script>
 </html>

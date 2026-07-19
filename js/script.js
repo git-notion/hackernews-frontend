@@ -7,7 +7,7 @@ async function fetchall(e){
     const load=document.getElementById('loader')
     document.getElementById(e).style.color="rgb(251 ,146 ,60)"
     list.style.display = 'none';
-    // document.querySelector('.pagination-controls').style.display = 'none';
+    document.querySelector('.pagination-controls').style.display = 'none';
     load.style.display = 'block';
     try{
         const rep=await fetch(`https://hacker-news.firebaseio.com/v0/${e}stories.json?print=pretty`)
@@ -22,10 +22,6 @@ async function fetchall(e){
 async function renderPage() {
     const list = document.querySelector('.story');
     const load = document.getElementById('loader');
-    
-    list.replaceChildren();
-    list.style.display = 'none';
-    load.style.display = 'block';
     list.replaceChildren()
     list.style.display='none';
     load.style.display='block'
@@ -48,7 +44,7 @@ async function renderPage() {
                 <p>Author: <a href="users.html?id=${trudata.by}" class="indiv">${trudata.by}</a></p>
                 <p class="story-meta">
                     <span class="meta-item"><a href="comments.html?id=${trudata.id}" class="indiv" id="comms">${trudata.descendants || 0} comments</a></span> |
-                    <span class="meta-item">Points: ${trudata.score}</span> |
+                    <span class="meta-item">Points: <img id="upv" src="assets/karma-img.png"> ${trudata.score}</span> |
                     <span class="meta-item">${timeAgo(trudata.time)}</span>
                 </p>
             </div>
@@ -58,13 +54,13 @@ async function renderPage() {
         });
 
         // Update the pagination UI
-        //updatePaginationUI();
+        updatePaginationUI();
     }catch (error) {
         console.log("Error loading page:", error);
     } finally {
         load.style.display = 'none';
         list.style.display = 'block';
-        //document.querySelector('.pagination-controls').style.display = 'block';
+        document.querySelector('.pagination-controls').style.display = 'flex';
     }
 }
 
@@ -96,4 +92,31 @@ document.getElementById('new').addEventListener('click',function(){
     const list=document.querySelector('.story')
     list.replaceChildren()
     fetchall('new')
+})
+document.getElementById('ask').addEventListener('click',function(){
+    const x= document.querySelectorAll('.nav-trs')
+    x.forEach(e => {
+        e.style.color="#e9e2e8"
+    })
+    const list=document.querySelector('.story')
+    list.replaceChildren()
+    fetchall('ask')
+})
+document.getElementById('show').addEventListener('click',function(){
+    const x= document.querySelectorAll('.nav-trs')
+    x.forEach(e => {
+        e.style.color="#e9e2e8"
+    })
+    const list=document.querySelector('.story')
+    list.replaceChildren()
+    fetchall('show')
+})
+document.getElementById('job').addEventListener('click',function(){
+    const x= document.querySelectorAll('.nav-trs')
+    x.forEach(e => {
+        e.style.color="#e9e2e8"
+    })
+    const list=document.querySelector('.story')
+    list.replaceChildren()
+    fetchall('job')
 })

@@ -1,9 +1,11 @@
 .comment {
-    transition: background-color .2s;
+    /* transition: background-color .2s; */
     padding: 8px;
     border-radius: 6px;
 }
-
+#sentinel{
+    height:50px;
+}
 .comment:hover,
 .comment:hover * {
     background: #2b2b2b;

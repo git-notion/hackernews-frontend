@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hackernews Client</title>
-    <link rel="icon" type="image/png" href="/assets/images.jpg">
+    <title>HNFlow</title>
+    <link rel="icon" type="image/jpg" href="assets/images.jpg">
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,13 +13,16 @@
 <body>
     <div class="full">
         <div class="top">
-            <a class="titletext" href="/">Hackernews Client</a>
+            <a class="titletext" href="/">HNFlow</a>
             <a href="https://github.com/git-notion" class="github">github</a>
         </div>
         <div class="navgn-bars">
             <button class="nav-trs" id="top">Top</button>
             <button class="nav-trs" id="new">New</button>
             <button class="nav-trs" id="best">Best</button>
+            <button class="nav-trs" id="ask">Ask</button>
+            <button class="nav-trs" id="show">Show</button>
+            <button class="nav-trs" id="job">Job</button>
         </div>
         <div id="loader" style="display: none;">
             Loading...
@@ -40,9 +43,17 @@
                 <!-- Comments will be injected here -->
             </ul>
         </div>
+        <div class="pagination-controls">
+            <button id="prev" class="butt"><</button>
+
+            <span id="page-info"></span>
+
+            <button id="next" class="butt">></button>
+        </div>
     </div>
 </body>
 <script src="js/comments.js"></script>
 <script src="js/script.js"></script>
 <script src="js/utils.js"></script>
+<script src="js/pagination.js"></script>
 </html>
