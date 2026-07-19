@@ -88,3 +88,16 @@ li:hover .story-card {
 .meta-item {
     margin-right: 8px;
 }
+#each{
+    transition: background-color 0.2s ease;
+    padding: 10px;
+}
+#each div,
+#each a,
+#each span {
+    background-color: transparent !important;
+}
+#each:hover{
+    background-color: #2c2c2c; 
+    transition: background-color 0.2s ease;
+}

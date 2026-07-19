@@ -45,7 +45,7 @@ async function renderPage() {
             item.innerHTML = `
             <div class="story-card">
                 <h3><a href="${trudata.url}" target="_blank">${trudata.title}</a></h3>
-                <p>Author: <a href="#" class="indiv">${trudata.by}</a></p>
+                <p>Author: <a href="users.html?id=${trudata.by}" class="indiv">${trudata.by}</a></p>
                 <p class="story-meta">
                     <span class="meta-item"><a href="comments.html?id=${trudata.id}" class="indiv" id="comms">${trudata.descendants || 0} comments</a></span> |
                     <span class="meta-item">Points: ${trudata.score}</span> |

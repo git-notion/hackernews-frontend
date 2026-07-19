@@ -16,17 +16,22 @@ async function loadComments() {
         console.log("reach");
         
         postDetails.innerHTML=`
-        <h1>${postData.title}</h1>
+        ${postData.title ?`
+        <h1>${postData.title}</h1>`:''}
         <p class="story-meta">
         <span class="meta-item">Author: <a href="" class="indiv">${postData.by}</a></span> |
-        <span class="meta-item">Points: ${postData.score}</span> |
+        ${postData.score ?
+        `<span class="meta-item">Points: ${postData.score}</span> |`:
+        ""}
         <span class="meta-item">${timeAgo(postData.time)}</span>
         </p>
-        <h3><a href="" class="indiv">${postData.url}</a> </h3>
+        ${postData.url ?`
+        <h3><a href="" class="indiv">${postData.url}</a> </h3>`:''}
+        <h3>${postData.text}</h3>
         `
         loader.style.display='none'
 
-
+        document.getElementById('counter').innerText=`Comments (${postData.kids.length})`
         if (!postData.kids || postData.kids.length === 0) {
             commentsList.innerHTML = '<li>No comments yet.</li>';
             return;

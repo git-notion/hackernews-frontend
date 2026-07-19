@@ -1,3 +1,10 @@
+function dateexact(unixTimestamp){
+    const now=Date.now()
+    const asn=new Date(unixTimestamp*1000);
+    const full=asn.toLocaleDateString();
+    return full;
+}
+
 function timeAgo(unixTimestamp) {
     const now = Date.now(); 
     const past = unixTimestamp * 1000; 
