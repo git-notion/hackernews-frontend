@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/images.jpg" alt="Hacknio Logo" width="120">
+  <a href="https://hnflow.netlify.app/" target="_blank"><img src="assets/images.jpg" alt="Hacknio Logo" width="120"></a>
 </p>
 
 # HNFlow
