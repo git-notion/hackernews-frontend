@@ -1,0 +1,20 @@
+.comment {
+    transition: background-color .2s;
+    padding: 8px;
+    border-radius: 6px;
+}
+
+.comment:hover,
+.comment:hover * {
+    background: #2b2b2b;
+}
+.comment h3,
+.comment a,
+.comment p,
+.comment div,
+.comment span {
+    background-color: transparent !important;
+}
+.toggle:hover{
+    cursor: pointer;
+}

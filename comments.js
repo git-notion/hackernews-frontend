@@ -7,7 +7,7 @@ const commentList=document.getElementById('comments-list')
 async function loadComments() {
     if(!id){
         postDetails.innerHTML='<h2>No id provided</h2>'
-        loader.style.display='none'
+        if(loader!=null)loader.style.display='none'
         return;
     }
     try{
@@ -25,33 +25,67 @@ async function loadComments() {
         <h3><a href="" class="indiv">${postData.url}</a> </h3>
         `
         loader.style.display='none'
+
+
         if (!postData.kids || postData.kids.length === 0) {
             commentsList.innerHTML = '<li>No comments yet.</li>';
             return;
         }
-        const bring=postData.kids.slice(0,5);
-        const fetchPromises = bring.map(id => 
-            fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`).then(r => r.json())
-        );
-        const fetcherN = await Promise.all(fetchPromises);
-        const fetcher=Array.from(fetcherN)
-        fetcher.forEach(e => {
-            if (!e || e.deleted || e.dead) return;
-            const li=document.createElement('li')
-            li.style.marginBottom = "20px";
-            li.style.borderBottom = "1px solid #ddd";
-            li.style.paddingBottom = "15px";
-            li.innerHTML=`
-            <div style="font-size: 0.85em; color: gray; margin-bottom: 8px;">
-                    <strong>by <a href='#' class="indiv">${e.by} </a></strong>  ${timeAgo(e.time)}
-                </div>
-                <div style="font-size: 0.95em;">
-                    ${e.text} 
-                </div>`
-            commentList.appendChild(li)
-        });
+        const list = document.getElementById('comments-list');
+        for(const  toplvlid of postData.kids){
+            await renderComment(toplvlid,list,0)
+        }
     }catch(error){
         console.log("error: "+error)
     }
 }
-loadComments()
+async function renderComment(id,list,depth){
+    const response = await fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`);
+    const comment = await response.json()
+    if(!comment||comment.deleted||comment.dead){
+        return
+    }
+    const li=document.createElement('li')
+    li.classList.add("comment");
+    li.style.listStyle='none'
+    li.style.marginTop = "15px";
+    li.style.marginBottom = "15px";
+    const commentBody = document.createElement('div');
+    commentBody.innerHTML=`
+    <div style="font-size: 0.85em; color: gray; margin-bottom: 8px;">
+        <strong>${comment.kids?.length ? '<span class="toggle">⬇ |</span>' : ''}  
+        by <a href='#' class="indiv">${comment.by} </a></strong>  ${timeAgo(comment.time)}
+    </div>
+    <div class="comment-text" style="font-size:0.95em;">
+    ${comment.text}
+    </div>`
+    li.appendChild(commentBody)
+    
+    if(comment.kids && comment.kids.length>0){
+        const replies=document.createElement('ul')
+        replies.style.borderLeft = "1px solid #544e4e"; 
+        replies.style.marginLeft = "10px"; 
+        replies.style.marginBottom = "15px";  
+        replies.style.paddingLeft = "15px";
+        for(const child of comment.kids){
+            await renderComment(child,replies,depth+1)
+        }
+        const z=commentBody.querySelector('.toggle');
+        const text=commentBody.querySelector('.comment-text')
+        z.addEventListener("click", () => {
+            const collapsed=replies.style.display === "none"
+            if (collapsed) {
+                replies.style.display = "";
+                text.style.display="";
+                z.textContent = "⬇";
+            } else {
+                replies.style.display = "none";
+                text.style.display="none";
+                z.textContent = "➡";
+            }
+        });
+        li.appendChild(replies)
+    }
+    list.appendChild(li)
+}
+document.addEventListener('DOMContentLoaded', loadComments);

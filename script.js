@@ -41,7 +41,7 @@ async function renderPage() {
             if (!trudata) return; 
             
             const item = document.createElement('li');
-            li.style.borderBottom = "1px solid #ddd";
+            item.style.borderBottom = "1px solid #ddd";
             item.innerHTML = `
             <div class="story-card">
                 <h3><a href="${trudata.url}" target="_blank">${trudata.title}</a></h3>
